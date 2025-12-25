@@ -1,0 +1,28 @@
+{
+	"name": "SimSig Companion",
+	"author": "Lewis Cawte <lewis@lewiscawte.me>",
+	"url": "https://www.mediawiki.org/wiki/Extension:SimSig Companion",
+	"description": "This extension is provides companion features for SimSig communities",
+	"descriptionmsg": "simsigcompanion-desc",
+	"version": "0.1",
+	"license-name": "GPL-3.0-or-later",
+	"type": "specialpage",
+	"manifest_version": 2,
+
+	"SpecialPages": {
+		"MySimSig": {
+			"class": "MediaWiki\\Extension\\SimSigCompanion\\SpecialMySimSig"
+		}
+	},
+
+	"ExtensionMessagesFiles": {
+		"SimSigCompanionAlias": "SimSigCompanion.alias.php"
+	},
+
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\SimSigCompanion\\": "src/",
+		"MediaWiki\\Extension\\SimSigCompanion\\Maintenance": "maintenance/"
+	},
+
+	"DatabaseScripts": "sql/simsig.sql"
+}

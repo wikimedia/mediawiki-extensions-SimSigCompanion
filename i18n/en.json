@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Lewis Cawte"
+		]
+	},
+	"simsigcompanion": "SimSig Companion",
+	"simsigcompanion-desc": "Adds a suite of special pages and functions to support SimSig communities.",
+	"mysimsig": "My SimSig Simulations",
+	"mysimsig-updated": "Your simulation ownerships have been updated."
+}
+
