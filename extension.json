@@ -15,6 +15,12 @@
 		}
 	},
 
+	"MessagesDirs": {
+		"SimSigCompanion": [
+			"i18n"
+		]
+	},
+
 	"ExtensionMessagesFiles": {
 		"SimSigCompanionAlias": "SimSigCompanion.alias.php"
 	},

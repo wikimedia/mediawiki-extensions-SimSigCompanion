@@ -7,6 +7,9 @@
 	"simsigcompanion": "SimSig Companion",
 	"simsigcompanion-desc": "Adds a suite of special pages and functions to support SimSig communities.",
 	"mysimsig": "My SimSig Simulations",
-	"mysimsig-updated": "Your simulation ownerships have been updated."
+	"mysimsig-updated": "Your simulation ownerships have been updated.",
+	"mysimsig-pageheader": "You can use this page to manage your SimSig simulations ownership information. Select any simulations you own licenses to. Any free simulations are greyed out and are automatically included for you.",
+	"mysimsig-form-submit": "Save changes",
+	"mysimsig-table-header-simulations": "Simulation name",
+	"mysimsig-table-header-owned": "Owned?"
 }
-

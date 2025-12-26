@@ -24,6 +24,7 @@ class SpecialMySimSig extends \SpecialPage {
 			$this->handleFormSubmission( $request, $user );
 		}
 
+		$this->getOutput()->addWikiMsg( 'mysimsig-pageheader' );
 		// Display the form
 		$this->displaySimTable( $output, $user );
 	}
@@ -66,8 +67,8 @@ class SpecialMySimSig extends \SpecialPage {
 		$html .= Html::openElement( 'table', [ 'class' => 'wikitable sortable' ] );
 		$html .= Html::openElement( 'thead' );
 		$html .= Html::openElement( 'tr' );
-		$html .= Html::element( 'th', [], 'Simulation Name' );
-		$html .= Html::element( 'th', [], 'Owned' );
+		$html .= Html::element( 'th', [], wfMessage( 'mysimsig-table-header-simulations' )->text() );
+		$html .= Html::element( 'th', [], wfMessage( 'mysimsig-table-header-owned' )->text() );
 		$html .= Html::closeElement( 'tr' );
 		$html .= Html::closeElement( 'thead' );
 
@@ -91,7 +92,7 @@ class SpecialMySimSig extends \SpecialPage {
 
 		// Add submit button and token
 		$html .= Html::hidden( 'wpEditToken', $user->getEditToken() );
-		$html .= Html::submitButton( 'Save Changes', [ 'name' => 'wpSave' ] );
+		$html .= Html::submitButton( wfMessage( 'mysimsig-form-submit' )->text(), [ 'name' => 'wpSave' ] );
 
 		$html .= Html::closeElement( 'form' );
 
