@@ -3,12 +3,17 @@
 namespace MediaWiki\Extension\SimSigCompanion;
 
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Html\Html;
-use MediaWiki\Session\CsrfTokenSet;
+use MediaWiki\Html\TemplateParser;
+
 
 class SpecialMySimSig extends \SpecialPage {
+
+	private TemplateParser $templateParser;
+
 	function __construct() {
 		parent::__construct( 'MySimSig' );
+
+		$this->templateParser = new TemplateParser( __DIR__ . '/../templates' );
 	}
 
 	function execute( $par ) {
@@ -18,13 +23,14 @@ class SpecialMySimSig extends \SpecialPage {
 
 		$this->setHeaders();
 
+		$output->addModuleStyles( 'ext.simsigcompanion.mysimsig.styles' );
+
 		// Handle form submission
 		if ( $request->wasPosted() &&
 			$this->getContext()->getCsrfTokenSet()->matchToken( $request->getVal( 'wpEditToken' ) ) ) {
 			$this->handleFormSubmission( $request, $user );
 		}
 
-		$this->getOutput()->addWikiMsg( 'mysimsig-pageheader' );
 		// Display the form
 		$this->displaySimTable( $output, $user );
 	}
@@ -33,70 +39,53 @@ class SpecialMySimSig extends \SpecialPage {
 		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$userId = $user->getId();
 
-		// Get all sims where ss_sim is true
-		$sims = $dbr->select(
-			'simsig_sims',
-			[ 'ss_id', 'ss_name' ],
-			[ 'ss_sim' => true ],
-			__METHOD__,
-			[ 'ORDER BY' => 'ss_name' ]
-		);
+		$data = $dbr->newSelectQueryBuilder()
+			->table( 'simsig_sims' )
+			->select( '*' )
+			->where( 'ss_sim = 1' )
+			->orderBy( 'ss_name' )
+			->caller( __METHOD__ )->fetchResultSet();
+
+		$simOwnershipData = [];
+		foreach( $data as $row ) {
+			$simOwnershipData[$row->ss_id] = [
+				'simId' => $row->ss_id,
+				'simName' => $row->ss_name,
+				'simFree' => (bool)$row->ss_free,
+				'simOwned' => false,
+			];
+		}
 
 		// Get current user's ownership records
-		$owned = [];
 		if ( $userId ) {
-			$ownedRows = $dbr->select(
-				'simsig_ownership',
-				[ 'ss_sim_id' ],
-				[ 'ss_owner_id' => $userId ],
-				__METHOD__
-			);
+			$ownedRows = $dbr->newSelectQueryBuilder()
+				->table( 'simsig_ownership' )
+				->select( 'ss_sim_id' )
+				->where( [ 'ss_owner_id' => $userId ] )
+				->caller( __METHOD__ )->fetchResultSet();
 
 			foreach ( $ownedRows as $row ) {
-				$owned[$row->ss_sim_id] = true;
+				$simOwnershipData[$row->ss_sim_id]['simOwned'] = true;
 			}
 		}
 
-		// Build the form
-		$html = Html::openElement( 'form', [
-			'method' => 'post',
-			'action' => $this->getPageTitle()->getLocalURL()
-		] );
+		$myssdata = [
+			'mysimsig-header' => wfMessage( 'mysimsig-pageheader' )->text(),
+			'mysimsig-formURL' => $this->getPageTitle()->getLocalURL(),
+			'mysimsig-table-header-simulations' => wfMessage( 'mysimsig-table-header-simulations' )->text(),
+			'mysimsig-table-header-owned' => wfMessage( 'mysimsig-table-header-owned' )->text(),
+			'mysimsig-data' => array_values($simOwnershipData),
+			'mysimsig-edittoken' => $user->getEditToken(),
+			'mysimsig-button-submit' => wfMessage( 'mysimsig-form-submit' )->text(),
+			'mysimsig-error-nosims' => wfMessage( 'mysimsig-error-nosims' )->text()
+		];
 
-		// Add table
-		$html .= Html::openElement( 'table', [ 'class' => 'wikitable sortable' ] );
-		$html .= Html::openElement( 'thead' );
-		$html .= Html::openElement( 'tr' );
-		$html .= Html::element( 'th', [], wfMessage( 'mysimsig-table-header-simulations' )->text() );
-		$html .= Html::element( 'th', [], wfMessage( 'mysimsig-table-header-owned' )->text() );
-		$html .= Html::closeElement( 'tr' );
-		$html .= Html::closeElement( 'thead' );
-
-		$html .= Html::openElement( 'tbody' );
-
-		foreach ( $sims as $sim ) {
-			$simId = $sim->ss_id;
-			$simName = $sim->ss_name ?? 'Unknown Sim';
-			$isOwned = isset( $owned[$simId] );
-
-			$html .= Html::openElement( 'tr' );
-			$html .= Html::rawElement( 'td', [], htmlspecialchars( $simName ) );
-			$html .= Html::rawElement( 'td', [],
-				Html::check( 'owned_' . $simId, $isOwned, [ 'value' => '1' ] )
-			);
-			$html .= Html::closeElement( 'tr' );
-		}
-
-		$html .= Html::closeElement( 'tbody' );
-		$html .= Html::closeElement( 'table' );
-
-		// Add submit button and token
-		$html .= Html::hidden( 'wpEditToken', $user->getEditToken() );
-		$html .= Html::submitButton( wfMessage( 'mysimsig-form-submit' )->text(), [ 'name' => 'wpSave' ] );
-
-		$html .= Html::closeElement( 'form' );
-
-		$output->addHTML( $html );
+		// Mustache/Codex template
+		$spTemplate = $this->templateParser->processTemplate(
+			'MySimSigPage',
+			$myssdata,
+		);
+		$output->addHTML( $spTemplate );
 	}
 
 	private function handleFormSubmission( $request, $user ) {

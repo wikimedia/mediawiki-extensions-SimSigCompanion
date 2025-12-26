@@ -30,5 +30,24 @@
 		"MediaWiki\\Extension\\SimSigCompanion\\Maintenance": "maintenance/"
 	},
 
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "SimSigCompanion/resources"
+	},
+
+		"ResourceModules": {
+		"ext.simsigcompanion.mysimsig.styles": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"styles": "ext.simsigcompanion.mysimsig.styles/styles.less",
+			"codexStyleOnly": "true",
+			"codexComponents": [
+				"CdxButton",
+				"CdxCheckbox",
+				"CdxToggleSwitch",
+				"CdxTable"
+			]
+		}
+	},
+
 	"DatabaseScripts": "sql/simsig.sql"
 }
