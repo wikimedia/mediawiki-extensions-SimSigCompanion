@@ -93,19 +93,19 @@ class SpecialMySimSig extends \SpecialPage {
 		$userId = $user->getId();
 
 		// Get all sims
-		$sims = $dbw->select(
-			'simsig_sims',
-			[ 'ss_id' ],
-			[ 'ss_sim' => true ],
-			__METHOD__
-		);
+		$sims = $dbw->newSelectQueryBuilder()
+			->table( 'simsig_sims' )
+			->fields( [ 'ss_id' ] )
+			->where( [ 'ss_sim' => true ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 
 		// Delete existing ownership records for this user
-		$dbw->delete(
-			'simsig_ownership',
-			[ 'ss_owner_id' => $userId ],
-			__METHOD__
-		);
+		$dbw->newDeleteQueryBuilder()
+			->table( 'simsig_ownership' )
+			->where( [ 'ss_owner_id' => $userId ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		// Insert new ownership records based on checked boxes
 		$toInsert = [];
