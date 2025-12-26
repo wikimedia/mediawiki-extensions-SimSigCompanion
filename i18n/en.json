@@ -12,5 +12,12 @@
 	"mysimsig-form-submit": "Save changes",
 	"mysimsig-table-header-simulations": "Simulation name",
 	"mysimsig-table-header-owned": "Owned?",
-	"mysimsig-error-nosims": "No simulations have been configured for this wiki. Please contact the wiki administrator for assistance."
+	"mysimsig-error-nosims": "No simulations have been configured for this wiki. Please contact the wiki administrator for assistance.",
+	"simsig": "SimSig Community",
+	"simsigcomm-table-header-simulations": "Simulation name",
+	"simsigcomm-table-header-owners": "Owners",
+	"simsigcomm-error-nosims": "No simulations have been configured for this wiki. Please contact the wiki administrator for assistance.",
+	"simsigcomm-message-noowners": "No users currently own this simulation.",
+	"simsigcomm-pageheader": "Welcome to the SimSig Community Page!\n\nHere you can see who owns SimSig simulations and arrange to play games.\n\nTo add to your simulations, visit the [[Special:MySimSig|My SimSig page]].",
+	"simsigcomm-message-freesims": "The following simulations in this region are free and do not require a license: \n\n $1"
 }

@@ -10,6 +10,9 @@
 	"manifest_version": 2,
 
 	"SpecialPages": {
+		"SimSig": {
+			"class": "MediaWiki\\Extension\\SimSigCompanion\\SpecialSimSig"
+		},
 		"MySimSig": {
 			"class": "MediaWiki\\Extension\\SimSigCompanion\\SpecialMySimSig"
 		}
@@ -35,7 +38,7 @@
 		"remoteExtPath": "SimSigCompanion/resources"
 	},
 
-		"ResourceModules": {
+	"ResourceModules": {
 		"ext.simsigcompanion.mysimsig.styles": {
 			"class": "MediaWiki\\ResourceLoader\\CodexModule",
 			"styles": "ext.simsigcompanion.mysimsig.styles/styles.less",
@@ -44,7 +47,8 @@
 				"CdxButton",
 				"CdxCheckbox",
 				"CdxToggleSwitch",
-				"CdxTable"
+				"CdxTable",
+				"CdxInfoChip"
 			]
 		}
 	},

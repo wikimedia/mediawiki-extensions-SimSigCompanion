@@ -1,0 +1,62 @@
+<div id="simsigcomm-wrapper">
+	<div id="simsigcomm-header">
+		{{{ simsigcomm-header }}}
+	</div>
+	<div id="simsigcomm-content cdx-table">
+		<div id="simsigcomm-form cdx-table__table-wrapper">
+				<table class="cdx-table__table">
+					<thead>
+					<tr>
+						<th scope="col" class="cdx-table__th-content">{{ simsigcomm-table-header-simulations }}</th>
+						<th scope="col" class="cdx-table__th-content">{{ simsigcomm-table-header-owners }}</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					{{#simsigcomm-data}}
+						<tr>
+							<td scope="row">{{sim}}</td>
+							<td>
+								{{#owners}}
+									<div class="cdx-info-chip cdx-info-chip--notice">
+										<span class="ext-simsigcompanion-cdx-css-icon--user"></span>
+										<span class="cdx-info-chip__text"> {{.}} </span>
+									</div>
+								{{/owners}}
+
+								{{^owners}}
+									<div
+										class="cdx-message cdx-message--inline cdx-message--notice"
+										aria-live="polite"
+									>
+										<span class="cdx-message__icon"></span>
+										<div class="cdx-message__content">{{simsigcomm-msg-noowners}}</div>
+									</div>
+								{{/owners}}
+							</td>
+						</tr>
+
+					{{/simsigcomm-data}}
+
+					{{^simsigcomm-data}}
+						<tr>
+							<td colspan="2">{{ simsigcomm-error-nosims }}</td>
+						</tr>
+
+					{{/simsigcomm-data}}
+					<tr>
+						<td colspan="2">
+							<div
+								class="cdx-message cdx-message--inline cdx-message--success"
+								aria-live="polite"
+							>
+								<span class="cdx-message__icon"></span>
+								<div class="cdx-message__content">{{{ simsigcomm-table-free-sims }}}</div>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+		</div>
+	</div>
+</div>
