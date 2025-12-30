@@ -14,11 +14,11 @@ class SpecialSimSig extends \SpecialPage {
 	}
 
 	/**
-	 * @param $par
+	 * @param string|null $subPage
 	 *
 	 * @return void
 	 */
-	public function execute( $par ) {
+	public function execute( $subPage ) {
 		$request = $this->getRequest();
 		$output = $this->getOutput();
 		$this->setHeaders();

@@ -2,21 +2,28 @@
 
 namespace MediaWiki\Extension\SimSigCompanion;
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Html\TemplateParser;
-
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Output\OutputPage;
+use MediaWiki\Request\WebRequest;
+use MediaWiki\User\User;
 
 class SpecialMySimSig extends \SpecialPage {
 
 	private TemplateParser $templateParser;
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'MySimSig' );
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../templates' );
 	}
 
-	function execute( $par ) {
+	/**
+	 * @param string $par
+	 *
+	 * @return void
+	 */
+	public function execute( $par ) {
 		$request = $this->getRequest();
 		$output = $this->getOutput();
 		$user = $this->getUser();
@@ -35,6 +42,14 @@ class SpecialMySimSig extends \SpecialPage {
 		$this->displaySimTable( $output, $user );
 	}
 
+	/**
+	 * Get data from our tables and combine it, passing all relevant data to our Mustache template.
+	 *
+	 * @param OutputPage $output
+	 * @param User $user
+	 *
+	 * @return void
+	 */
 	private function displaySimTable( $output, $user ) {
 		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$userId = $user->getId();
@@ -47,7 +62,7 @@ class SpecialMySimSig extends \SpecialPage {
 			->caller( __METHOD__ )->fetchResultSet();
 
 		$simOwnershipData = [];
-		foreach( $data as $row ) {
+		foreach ( $data as $row ) {
 			$simOwnershipData[$row->ss_id] = [
 				'simId' => $row->ss_id,
 				'simName' => $row->ss_name,
@@ -70,14 +85,14 @@ class SpecialMySimSig extends \SpecialPage {
 		}
 
 		$myssdata = [
-			'mysimsig-header' => wfMessage( 'mysimsig-pageheader' )->text(),
+			'mysimsig-header' => $this->msg( 'mysimsig-pageheader' )->text(),
 			'mysimsig-formURL' => $this->getPageTitle()->getLocalURL(),
-			'mysimsig-table-header-simulations' => wfMessage( 'mysimsig-table-header-simulations' )->text(),
-			'mysimsig-table-header-owned' => wfMessage( 'mysimsig-table-header-owned' )->text(),
-			'mysimsig-data' => array_values($simOwnershipData),
+			'mysimsig-table-header-simulations' => $this->msg( 'mysimsig-table-header-simulations' )->text(),
+			'mysimsig-table-header-owned' => $this->msg( 'mysimsig-table-header-owned' )->text(),
+			'mysimsig-data' => array_values( $simOwnershipData ),
 			'mysimsig-edittoken' => $user->getEditToken(),
-			'mysimsig-button-submit' => wfMessage( 'mysimsig-form-submit' )->text(),
-			'mysimsig-error-nosims' => wfMessage( 'mysimsig-error-nosims' )->text()
+			'mysimsig-button-submit' => $this->msg( 'mysimsig-form-submit' )->text(),
+			'mysimsig-error-nosims' => $this->msg( 'mysimsig-error-nosims' )->text()
 		];
 
 		// Mustache/Codex template
@@ -88,6 +103,15 @@ class SpecialMySimSig extends \SpecialPage {
 		$output->addHTML( $spTemplate );
 	}
 
+	/**
+	 * Take form input and update the data back to the database accordingly.
+	 * Displays an interface message on the page if successful.
+	 *
+	 * @param WebRequest $request
+	 * @param User $user
+	 *
+	 * @return void
+	 */
 	private function handleFormSubmission( $request, $user ) {
 		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$userId = $user->getId();
@@ -127,6 +151,6 @@ class SpecialMySimSig extends \SpecialPage {
 			);
 		}
 
-		$this->getOutput()->msg('mysimsig-updated' );
+		$this->getOutput()->msg( 'mysimsig-updated' );
 	}
 }

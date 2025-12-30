@@ -3,7 +3,6 @@
 namespace MediaWiki\Extension\SimSigCompanion\Maintenance;
 
 use Maintenance;
-use MediaWiki\MediaWikiServices;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {

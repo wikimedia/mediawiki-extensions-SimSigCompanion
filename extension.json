@@ -1,7 +1,7 @@
 {
 	"name": "SimSig Companion",
 	"author": "Lewis Cawte <lewis@lewiscawte.me>",
-	"url": "https://www.mediawiki.org/wiki/Extension:SimSig Companion",
+	"url": "https://www.mediawiki.org/wiki/Extension:SimSig_Companion",
 	"description": "This extension is provides companion features for SimSig communities",
 	"descriptionmsg": "simsigcompanion-desc",
 	"version": "0.1",
@@ -29,8 +29,7 @@
 	},
 
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extension\\SimSigCompanion\\": "src/",
-		"MediaWiki\\Extension\\SimSigCompanion\\Maintenance": "maintenance/"
+		"MediaWiki\\Extension\\SimSigCompanion\\": "src/"
 	},
 
 	"ResourceFileModulePaths": {
@@ -51,7 +50,5 @@
 				"CdxInfoChip"
 			]
 		}
-	},
-
-	"DatabaseScripts": "sql/simsig.sql"
+	}
 }

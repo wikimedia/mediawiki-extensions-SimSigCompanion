@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Lewis Cawte"
+		]
+	},
+	"simsigcompanion": "Extension name.",
+	"simsigcompanion-desc": "The description of the extension. It will be displayed on Special:Version.",
+	"mysimsig": "Page title for special page",
+	"mysimsig-updated": "Success message for [[Special:MySimSig]] after saving changes displayed at the top of the page.",
+	"mysimsig-pageheader": "Paragraph of text explaining the purpose and functionality of [[Special:MySimSig]] shown ahove the form.",
+	"mysimsig-form-submit": "Button text for submitting the form on [[Special:MySimSig]].",
+	"mysimsig-table-header-simulations": "A table header, data items below are names of simulations which are directly extracted from the software product SimSig and displayed in the table rows.",
+	"mysimsig-table-header-owned": "A table header above a checkbox, asking whether the user owns the specific license to the simulations of the software product.",
+	"mysimsig-error-nosims": "An error message spanning the table if the wiki is not configured with any selectable simulations, asking the user to contact an administrator.",
+	"simsig": "Page title for special page",
+	"simsigcomm-table-header-simulations": "A table header, data items below are names of simulations which are directly extracted from the software product SimSig and displayed in the table rows.",
+	"simsigcomm-table-header-owners": "A table header, column shows a list of users who have stated they own a license to the simulations of the software product through [[Special:MySimSig]].",
+	"simsigcomm-error-nosims": "An error message spanning the table if no users have selected any simulations to be displayed on the community page via [[Special:MySimSig]].",
+	"simsigcomm-message-noowners": "A notice that no users currently own any of the simulations.",
+	"simsigcomm-pageheader": "Paragraph of text explaining how the special page works, data is largely extracted from inputs on [[Special:MySimSig]].",
+	"simsigcomm-message-freesims": "A message box, the parameter is a comma-separated list of individual simulations that do not require a license, displayed at the bottom of the page."
+}
