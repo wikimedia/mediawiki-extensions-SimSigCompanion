@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\Extension\SimSigCompanion\Maintenance;
+namespace MediaWiki\Extension\SimSigCompanion;
 
-use Maintenance;
+use MediaWiki\Maintenance\Maintenance;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {

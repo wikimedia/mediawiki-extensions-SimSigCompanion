@@ -50,5 +50,9 @@
 				"CdxInfoChip"
 			]
 		}
+	},
+
+	"Hooks": {
+		"LoadExtensionSchemaUpdates": "MediaWiki\\Extension\\SimSigCompanion\\Hooks::onLoadExtensionSchemaUpdates"
 	}
 }
