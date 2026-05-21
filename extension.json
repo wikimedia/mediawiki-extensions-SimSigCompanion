@@ -4,7 +4,7 @@
 	"url": "https://www.mediawiki.org/wiki/Extension:SimSig_Companion",
 	"description": "This extension is provides companion features for SimSig communities",
 	"descriptionmsg": "simsigcompanion-desc",
-	"version": "0.1",
+	"version": "0.1.1",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"manifest_version": 2,
@@ -30,6 +30,16 @@
 
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\SimSigCompanion\\": "src/"
+	},
+
+	"AvailableRights": [
+		"mysimsig"
+	],
+
+	"GroupPermissions": {
+		"user": {
+			"mysimsig": true
+		}
 	},
 
 	"ResourceFileModulePaths": {
