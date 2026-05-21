@@ -6,14 +6,15 @@ use MediaWiki\Html\TemplateParser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\WebRequest;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\User;
 
-class SpecialMySimSig extends \SpecialPage {
+class SpecialMySimSig extends SpecialPage {
 
 	private TemplateParser $templateParser;
 
 	public function __construct() {
-		parent::__construct( 'MySimSig' );
+		parent::__construct( 'MySimSig', 'mysimsig' );
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../templates' );
 	}
@@ -31,6 +32,12 @@ class SpecialMySimSig extends \SpecialPage {
 		$this->setHeaders();
 
 		$output->addModuleStyles( 'ext.simsigcompanion.mysimsig.styles' );
+
+		if ( !$this->userCanExecute( $user ) ) {
+			$this->getOutput()->showErrorPage(
+				'mysimsig-error-notloggedin-title', 'mysimsig-error-notloggedin-text' );
+			return;
+		}
 
 		// Handle form submission
 		if ( $request->wasPosted() &&
@@ -115,6 +122,12 @@ class SpecialMySimSig extends \SpecialPage {
 	private function handleFormSubmission( $request, $user ) {
 		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$userId = $user->getId();
+
+		// This is probably redundant, but, user_id 0 inserted into the DB is problematic
+		if ( $userId === 0 ) {
+			$this->getOutput()->showErrorPage(
+				'mysimsig-error-notloggedin-title', 'mysimsig-error-notloggedin-text' );
+		}
 
 		// Get all sims
 		$sims = $dbw->newSelectQueryBuilder()
