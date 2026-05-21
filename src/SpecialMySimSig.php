@@ -13,6 +13,11 @@ class SpecialMySimSig extends SpecialPage {
 
 	private TemplateParser $templateParser;
 
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'mysimsig';
+	}
+
 	public function __construct() {
 		parent::__construct( 'MySimSig', 'mysimsig' );
 
