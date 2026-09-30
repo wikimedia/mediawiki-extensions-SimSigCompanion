@@ -24,6 +24,20 @@ class Hooks {
 			__DIR__ . '/../sql/simsig_ownership.sql'
 		);
 
+		// Installs that were undertaken pre-the addition of defaults
+		// i.e testing sites run into issues (re-) inserting simulation
+		// data due to it currently being a manually constructed column
+		$updater->modifyExtensionField(
+			'simsig_sims',
+			'ss_sim',
+			__DIR__ . '/../sql/patch-simsig_sims-ss_sim-default.sql'
+		);
+		$updater->modifyExtensionField(
+			'simsig_sims',
+			'ss_free',
+			__DIR__ . '/../sql/patch-simsig_sims-ss_free-default.sql'
+		);
+
 		$updater->addExtensionIndex(
 			'simsig_sims',
 			'ss_filename',
